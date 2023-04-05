@@ -33,7 +33,7 @@
   # Create a normal user and set password.
   programs.sway.enable = false;
 
-  users = {
+  users.users = {
     root = {
       initialHashedPassword = "rootHash_placeholder";
       openssh.authorizedKeys.keys = [ "sshKey_placeholder" ];
