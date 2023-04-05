@@ -18,8 +18,7 @@
   # Enable GNOME
   # GNOME must be used with a normal user account.
   # However, by default, only root user is configured.
-  # Create a normal user and set password in
-  # hosts/exampleHost/default.nix
+  # Create a normal user and set password.
   #
   # You need to enable all options in this attribute set.
   services.xserver = {
@@ -31,9 +30,34 @@
   # Enable Sway window manager
   # Sway must be used with a normal user account.
   # However, by default, only root user is configured.
-  # Create a normal user and set password in
-  # hosts/exampleHost/default.nix
+  # Create a normal user and set password.
   programs.sway.enable = false;
+
+  users = {
+    root = {
+      initialHashedPassword = "rootHash_placeholder";
+      openssh.authorizedKeys.keys = [ "sshKey_placeholder" ];
+    };
+
+    # "normalUser" is the user name,
+    # change if needed.
+    normalUser = {
+      # Generate hashed password with "mkpasswd" command,
+      # "!" disables login.
+      initialHashedPassword = "!";
+      description = "Full Name";
+      # Users in "wheel" group are allowed to use "doas" command
+      # to obtain root permissions.
+      extraGroups = [ "wheel" ];
+      packages = builtins.attrValues {
+        inherit (pkgs)
+          mg # emacs-like editor
+          jq # other programs
+        ;
+      };
+      isNormalUser = true;
+    };
+  };
 
   programs.neovim = {
     enable = true;

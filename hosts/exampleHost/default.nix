@@ -37,31 +37,5 @@
       timeZone = "Europe/Berlin";
       hostId = "abcd1234";
     };
-    users = {
-      root = {
-        initialHashedPassword = "rootHash_placeholder";
-        authorizedKeys = [ "sshKey_placeholder" ];
-        isSystemUser = true;
-      };
-
-      # "normalUser" is the user name,
-      # change if needed.
-      normalUser = {
-        # Generate hashed password with "mkpasswd" command,
-        # "!" disables login.
-        initialHashedPassword = "!";
-        description = "Full Name";
-        # Users in "wheel" group are allowed to use "doas" command
-        # to obtain root permissions.
-        extraGroups = [ "wheel" ];
-        packages = builtins.attrValues {
-          inherit (pkgs)
-            mg # emacs-like editor
-            jq # other programs
-          ;
-        };
-        isNormalUser = true;
-      };
-    };
   };
 }
