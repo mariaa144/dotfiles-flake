@@ -1,4 +1,5 @@
 { zfs-root, inputs, pkgs, lib, ... }: {
+  hardware.enableRedistributableFirmware = lib.mkForce false;
   # load module config to here
   inherit zfs-root;
 
