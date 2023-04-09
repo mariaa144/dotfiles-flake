@@ -43,8 +43,9 @@
     # "normalUser" is the user name,
     # change if needed.
     normalUser = {
-      # Generate hashed password with "mkpasswd" command,
+      # Generate hashed password with "mkpasswd -m sha-512" command,
       # "!" disables login.
+      # "mkpasswd" without "-m sha-512" will not work
       initialHashedPassword = "!";
       description = "Full Name";
       # Users in "wheel" group are allowed to use "doas" command
