@@ -23,7 +23,7 @@
         # for external usb drive
         "uas"
       ];
-      removableEfi = false;
+      removableEfi = true;
       kernelParams = [ ];
       sshUnlock = {
         # read sshUnlock.txt file.
