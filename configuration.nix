@@ -1,6 +1,6 @@
-{ zfs-root, inputs, pkgs, lib, ... }: {
-  # load module config to here
-  inherit zfs-root;
+{ my-config, zfs-root, inputs, pkgs, lib, ... }: {
+  # load module config to top-level configuration
+  inherit my-config zfs-root;
 
   # Let 'nixos-version --json' know about the Git revision
   # of this flake.
@@ -16,48 +16,10 @@
   networking.useDHCP = true;
   networking.networkmanager.enable = false;
 
-  # Enable GNOME
-  # GNOME must be used with a normal user account.
-  # However, by default, only root user is configured.
-  # Create a normal user and set password.
-  #
-  # You need to enable all options in this attribute set.
-  services.xserver = {
-    enable = false;
-    desktopManager.gnome.enable = false;
-    displayManager.gdm.enable = false;
-  };
-
-  # Enable Sway window manager
-  # Sway must be used with a normal user account.
-  # However, by default, only root user is configured.
-  # Create a normal user and set password.
-  programs.sway.enable = false;
-
   users.users = {
     root = {
       initialHashedPassword = "rootHash_placeholder";
       openssh.authorizedKeys.keys = [ "sshKey_placeholder" ];
-    };
-
-    # "normalUser" is the user name,
-    # change if needed.
-    normalUser = {
-      # Generate hashed password with "mkpasswd -m sha-512" command,
-      # "!" disables login.
-      # "mkpasswd" without "-m sha-512" will not work
-      initialHashedPassword = "!";
-      description = "Full Name";
-      # Users in "wheel" group are allowed to use "doas" command
-      # to obtain root permissions.
-      extraGroups = [ "wheel" ];
-      packages = builtins.attrValues {
-        inherit (pkgs)
-          mg # emacs-like editor
-          jq # other programs
-        ;
-      };
-      isNormalUser = true;
     };
   };
 
