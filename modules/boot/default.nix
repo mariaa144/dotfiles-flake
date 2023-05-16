@@ -124,7 +124,6 @@ in {
             enable = true;
             devices = (map (diskName: cfg.devNodes + diskName) cfg.bootDevices);
             efiInstallAsRemovable = cfg.removableEfi;
-            version = 2;
             copyKernels = true;
             efiSupport = true;
             zfsSupport = true;
