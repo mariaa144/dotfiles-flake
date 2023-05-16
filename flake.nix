@@ -2,7 +2,7 @@
   ## ensure a successful installation by pinning nixpkgs to a known
   ## good revision
   inputs.nixpkgs.url =
-    "github:nixos/nixpkgs/3d302c67ab8647327dba84fbdb443cdbf0e82744";
+    "github:nixos/nixpkgs/c8f6370f7daf435d51d137dcbd80c7ebad1f21f2";
   ## after reboot, you can track latest stable by using
   #inputs.nixpkgs.url = "github:nixos/nixpkgs/nixos-22.11";
   ## or track rolling release by using
