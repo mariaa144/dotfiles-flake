@@ -20,7 +20,7 @@
               # Module 1: host-specific config, if exist
               (if (builtins.pathExists
                 ./hosts/${hostName}/configuration.nix) then
-                import ./hosts/${hostName}/configuration.nix
+                (import ./hosts/${hostName}/configuration.nix { inherit pkgs; })
               else
                 { })
 
