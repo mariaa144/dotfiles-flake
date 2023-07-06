@@ -52,7 +52,10 @@
               # Module 4: config shared by all hosts
               (import ./configuration.nix { inherit pkgs; })
             ];
-          }) (import ./hosts/${hostName} {
+          })
+
+        # configuration input
+          (import ./hosts/${hostName} {
             system = system;
             pkgs = nixpkgs.legacyPackages.${system};
           }));
