@@ -1,3 +1,5 @@
+# configuration in this file is shared by all hosts
+
 { ... }: {
   # Enable NetworkManager for wireless networking,
   # You can configure networking with "nmtui" command.
@@ -18,19 +20,19 @@
   };
 
   services.openssh = {
-    enable = lib.mkDefault true;
-    settings = { PasswordAuthentication = lib.mkDefault false; };
+    enable = true;
+    settings = { PasswordAuthentication = false; };
   };
 
-  boot.zfs.forceImportRoot = lib.mkDefault false;
+  boot.zfs.forceImportRoot = false;
 
-  nix.settings.experimental-features = lib.mkDefault [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   programs.git.enable = true;
 
   security = {
-    doas.enable = lib.mkDefault true;
-    sudo.enable = lib.mkDefault false;
+    doas.enable = true;
+    sudo.enable = false;
   };
 
   environment.systemPackages = builtins.attrValues {
