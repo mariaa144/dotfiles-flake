@@ -38,4 +38,21 @@ in {
       isNormalUser = true;
     };
   };
+  home-manager.users.alice = {
+    home.packages = builtins.attrValues { inherit (pkgs) mg shellcheck _7zz; };
+
+    gtk = {
+      enable = true;
+      font = { name = "sans-serif"; };
+      theme = {
+        name = "Adwaita";
+        package = pkgs.gnome.gnome-themes-extra;
+      };
+      iconTheme = {
+        package = pkgs.gnome.adwaita-icon-theme;
+        name = "Adwaita";
+      };
+    };
+  };
+
 }
