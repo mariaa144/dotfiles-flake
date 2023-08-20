@@ -1,23 +1,16 @@
-* Minimal NixOS Root on ZFS configuration
-This repo contains a minimal set of configuration needed for
-installing NixOS on a computer with ZFS as root filesystem.
+* Install NixOS with ZFS as root filesystem
+This repo contains a minimal set of configuration for installing
+NixOS, using [[https://openzfs.github.io/openzfs-docs/][ZFS]] as root filesystem.
 
-#+begin_src text
-.gitignore
-LICENSE
-configuration.nix   <- configuration shared by all hosts
-flake.lock
-flake.nix
-hosts/exampleHost/default.nix  <- per-host configuration
-hosts/exampleHost/sshUnlock.txt
-modules/boot/default.nix
-modules/default.nix
-modules/fileSystems/default.nix
-modules/networking/default.nix
-#+end_src
+ZFS is a modern filesystem with many features such as snapshot,
+self-healing and pooled storage.
 
-Just enough to get you started.
+To use this repo, see [[https://openzfs.github.io/openzfs-docs/Getting%20Started/NixOS/Root%20on%20ZFS.html][Documentation]].
 
-See [[https://github.com/ne9z/personal-dotfiles][my personal dotfiles repo]] for an example of how to configure
-servers and desktop computers in the same git repository, based on
-this template repo you are viewing now.
+Upon initial installation, only the bootloader, mountpoints and root
+password is configured. Refer to =man configuration.nix= for available
+options. You can search for available packages with [[https://search.nixos.org/packages][Package Search]];
+search for options with [[https://search.nixos.org/options][Option Search]].
+
+[[https://codeberg.org/m0p/dotfiles][My personal dotfiles repo]] contains an instance of desktop
+configuration based on sway, tmux and Emacs.
