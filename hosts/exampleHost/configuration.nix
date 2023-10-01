@@ -1,5 +1,6 @@
+# configuration in this file only applies to exampleHost host.
+
 { pkgs, ... }: {
-  # configuration in this file only applies to exampleHost host.
   programs.tmux = {
     enable = true;
     newSession = true;

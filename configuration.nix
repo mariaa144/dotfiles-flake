@@ -13,6 +13,14 @@
     };
   };
 
+  ## enable GNOME desktop.
+  ## You need to configure a normal, non-root user.
+  # services.xserver = {
+  #  enable = true;
+  #  desktopManager.gnome.enable = true;
+  #  displayManager.gdm.enable = true;
+  # };
+
   programs.neovim = {
     enable = true;
     viAlias = true;
