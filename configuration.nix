@@ -21,6 +21,18 @@
   #  displayManager.gdm.enable = true;
   # };
 
+  ## enable ZFS auto snapshot on datasets
+  ## You need to set the auto snapshot property to "true"
+  ## on datasets for this to work, such as
+  # zfs set com.sun:auto-snapshot=true rpool/nixos/home
+  services.zfs = {
+    autoSnapshot = {
+      enable = false;
+      flags = "-k -p --utc";
+      monthly = 48;
+    };
+  };
+
   programs.neovim = {
     enable = true;
     viAlias = true;
