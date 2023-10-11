@@ -8,7 +8,7 @@
 
   users.users = {
     root = {
-      initialHashedPassword = "changeme";
+      initialPassword = "changeme";
       openssh.authorizedKeys.keys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILGTsI9Q7a92VGc8QGdTdWxCx1J0W05iYVnkH5Xz4nBm"
       ];
@@ -59,7 +59,7 @@
 
   environment.systemPackages = builtins.attrValues {
     inherit (pkgs)
-      mg # emacs-like editor
+      #mg # emacs-like editor
       jq # other programs
     ;
   };

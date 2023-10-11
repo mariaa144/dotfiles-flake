@@ -10,7 +10,8 @@
   zfs-root = {
     boot = {
       devNodes = "/dev/disk/by-id/";
-      bootDevices = [ "virtio-abcdef0122346789" ];
+      bootDevices = [ "virtio-abcdef0123456789" ];
+
       immutable = false;
       availableKernelModules = [ "ahci" "xhci_pci" "virtio_pci" "sr_mod" "virtio_blk" ];
       removableEfi = true;

@@ -3,7 +3,7 @@
 # only zfs-root.* options can be defined in this file.
 #
 # all others goes to `configuration.nix` under the same directory as
-# this file. 
+# this file.
 
 { system, pkgs, ... }: {
   inherit pkgs system;
