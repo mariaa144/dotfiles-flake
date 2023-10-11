@@ -47,6 +47,7 @@
               imports = [
                 "${nixpkgs}/nixos/modules/installer/scan/not-detected.nix"
                 # "${nixpkgs}/nixos/modules/profiles/hardened.nix"
+                # "${nixpkgs}/nixos/modules/profiles/qemu-guest.nix"
               ];
             })
 
