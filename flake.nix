@@ -18,8 +18,8 @@
           specialArgs = {
             # By default, the system will only use packages from the
             # stable channel.  You can selectively install packages
-            # from the unstable channel. Such as
-            # inherit (pkgs-unstable) hello;
+            # from the unstable channel.  You can also add more
+            # channels to pin package version.
             pkgs-unstable = nixpkgs-unstable.legacyPackages.${system};
           };
 
