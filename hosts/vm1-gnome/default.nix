@@ -15,7 +15,6 @@
       availableKernelModules = [ "ahci" "xhci_pci" "virtio_pci" "sr_mod" "virtio_blk" ];
       removableEfi = true;
       kernelParams = [ "nohibernate" "mitigations=off" ];
-      boot.kernelModules = ["kvm-amd" ];
 
       sshUnlock = {
         # read sshUnlock.txt file.

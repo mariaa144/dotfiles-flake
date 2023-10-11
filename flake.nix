@@ -62,16 +62,16 @@
             pkgs = nixpkgs.legacyPackages.${system};
           }));
 
-      sdelrio-modules= [
-        ./users/sdelrio/user.nix
-        home-manager.nixosModules.home-manager {
-          home-manager = {
-            useUserPackages = true;
-            users.sdelrio = import ./userse/sdelrio/hm.nix;
-            extraSpecialArgs = specialArgs;
-          };
-        }
-      ];
+#      sdelrio-modules= [
+#        ./users/sdelrio/user.nix
+#        home-manager.nixosModules.home-manager {
+#          home-manager = {
+#            useUserPackages = true;
+#            users.sdelrio = import ./userse/sdelrio/hm.nix;
+#            extraSpecialArgs = specialArgs;
+#          };
+#        }
+#      ];
     in {
       nixosConfigurations = {
         exampleHost = mkHost "exampleHost" "x86_64-linux";
