@@ -45,12 +45,23 @@ in {
       description = "Describe on disk partitions";
       type = types.attrsOf types.str;
     };
+    sshUnlock = {
+      enable = mkOption {
+        type = types.bool;
+        default = false;
+      };
+      authorizedKeys = mkOption {
+        type = types.listOf types.str;
+        default = [ ];
+      };
+    };
   };
   config = mkIf (cfg.enable) (mkMerge [
     {
       zfs-root.fileSystems.datasets = {
         "rpool/nixos/home" = mkDefault "/home";
         "rpool/nixos/var/lib" = mkDefault "/var/lib";
+        "rpool/nixos/var/log" = mkDefault "/var/log";
         "bpool/nixos/root" = "/boot";
       };
     }
@@ -63,7 +74,10 @@ in {
           "rpool/nixos/empty" = "/";
           "rpool/nixos/root" = "/oldroot";
         };
-        bindmounts = { "/oldroot/nix" = "/nix"; };
+        bindmounts = {
+          "/oldroot/nix" = "/nix";
+          "/oldroot/etc/nixos" = "/etc/nixos";
+        };
       };
       boot.initrd.postDeviceCommands = ''
         if ! grep -q zfs_no_rollback /proc/cmdline; then
@@ -110,5 +124,27 @@ in {
         };
       };
     }
+    (mkIf cfg.sshUnlock.enable {
+      boot.initrd = {
+        network = {
+          enable = true;
+          ssh = {
+            enable = true;
+            hostKeys = [
+              "/var/lib/ssh_unlock_zfs_ed25519_key"
+              "/var/lib/ssh_unlock_zfs_rsa_key"
+            ];
+            authorizedKeys = cfg.sshUnlock.authorizedKeys;
+          };
+          postCommands = ''
+            tee -a /root/.profile >/dev/null <<EOF
+            if zfs load-key rpool/nixos; then
+               pkill zfs
+            fi
+            exit
+            EOF'';
+        };
+      };
+    })
   ]);
 }
