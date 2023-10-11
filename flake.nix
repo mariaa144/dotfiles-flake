@@ -1,4 +1,6 @@
 {
+  description = "Custom config managed by nix flakes";
+
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-23.05";
     home-manager = {
@@ -59,9 +61,21 @@
             system = system;
             pkgs = nixpkgs.legacyPackages.${system};
           }));
+
+      sdelrio-modules= [
+        ./users/sdelrio/user.nix
+        home-manager.nixosModules.home-manager {
+          home-manager = {
+            useUserPackages = true;
+            users.sdelrio = import ./userse/sdelrio/hm.nix;
+            extraSpecialArgs = specialArgs;
+          };
+        }
+      ];
     in {
       nixosConfigurations = {
         exampleHost = mkHost "exampleHost" "x86_64-linux";
+        vm1-gnome = mkHost "vm1-gnome" "x86_64-linux";
       };
     };
 }
