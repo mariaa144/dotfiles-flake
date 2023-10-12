@@ -1,7 +1,7 @@
 # configuration in this file is shared by all hosts
 
 { pkgs, pkgs-unstable, inputs, ... }:
-let inherit (inputs) self nixpkgs;
+let inherit (inputs) self;
 in {
   # Enable NetworkManager for wireless networking,
   # You can configure networking with "nmtui" command.

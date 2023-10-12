@@ -12,7 +12,7 @@
     let
       mkHost = hostName: system:
         nixpkgs.lib.nixosSystem {
-          system = system;
+          inherit system;
           pkgs = nixpkgs.legacyPackages.${system};
 
           specialArgs = {
