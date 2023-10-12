@@ -1,6 +1,8 @@
 # configuration in this file is shared by all hosts
 
-{ pkgs, pkgs-unstable, ... }: {
+{ pkgs, pkgs-unstable, inputs, ... }:
+let inherit (inputs) self nixpkgs;
+in {
   # Enable NetworkManager for wireless networking,
   # You can configure networking with "nmtui" command.
   networking.useDHCP = true;
@@ -69,4 +71,13 @@
     # You can also add more
     # channels to pin package version.
   };
+
+  # Safety mechanism: refuse to build unless everything is
+  # tracked by git
+  system.configurationRevision = if (self ? rev) then
+    self.rev
+  else
+    throw "refuse to build: git tree is dirty";
+
+  system.stateVersion = "23.05";
 }

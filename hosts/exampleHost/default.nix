@@ -1,4 +1,6 @@
-{
+{ inputs, ... }:
+let inherit (inputs) nixpkgs;
+in {
   zfs-root = {
     boot = {
       devNodes = "/dev/disk/by-id/";
@@ -18,4 +20,11 @@
   # read changeHostName.txt file.
   networking.hostName = "exampleHost";
   time.timeZone = "Europe/Berlin";
+
+  # import preconfigured profiles
+  imports = [
+    "${nixpkgs}/nixos/modules/installer/scan/not-detected.nix"
+    # "${nixpkgs}/nixos/modules/profiles/hardened.nix"
+    # "${nixpkgs}/nixos/modules/profiles/qemu-guest.nix"
+  ];
 }
