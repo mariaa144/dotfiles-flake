@@ -40,6 +40,6 @@ in {
     # "${nixpkgs}/nixos/modules/profiles/hardened.nix"
     "${nixpkgs}/nixos/modules/profiles/qemu-guest.nix"
     ./configuration.nix
-    ./../..users/sdelrio/user.nix
+    ./../../users/sdelrio/user.nix
   ];
 }
