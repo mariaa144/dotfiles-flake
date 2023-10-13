@@ -39,21 +39,8 @@ in {
     "${nixpkgs}/nixos/modules/installer/scan/not-detected.nix"
     # "${nixpkgs}/nixos/modules/profiles/hardened.nix"
     "${nixpkgs}/nixos/modules/profiles/qemu-guest.nix"
-    #"./users/sdelrio/user.nix"
+    ./configuration.nix
+    ./../..users/sdelrio/user.nix
   ];
 
-  users.users.sdelrio = {
-    isNormalUser = true;
-    initialPassword = "changeme";
-    extraGroups =
-      [ "wheel" "networkmanager" "audio" "docker" "nixconfig" "dialout" ];
-    openssh = {
-      authorizedKeys.keys = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILGTsI9Q7a92VGc8QGdTdWxCx1J0W05iYVnkH5Xz4nBm"
-      ];
-    };
-    packages = with pkgs; [
-      tree
-    ];
-  };
 }
