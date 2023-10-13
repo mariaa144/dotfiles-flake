@@ -10,8 +10,10 @@ in {
 
   users.users = {
     root = {
-      initialHashedPassword = "rootHash_placeholder";
-      openssh.authorizedKeys.keys = [ "sshKey_placeholder" ];
+      initialPassword = "changeme";
+      openssh.authorizedKeys.keys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILGTsI9Q7a92VGc8QGdTdWxCx1J0W05iYVnkH5Xz4nBm"
+      ];
     };
   };
 
@@ -59,7 +61,7 @@ in {
 
   environment.systemPackages = builtins.attrValues {
     inherit (pkgs)
-      mg # emacs-like editor
+      #mg # emacs-like editor
       jq # other programs
     ;
     # By default, the system will only use packages from the
