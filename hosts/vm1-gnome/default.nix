@@ -5,29 +5,41 @@
 # all others goes to `configuration.nix` under the same directory as
 # this file.
 
-{ system, pkgs, ... }: {
-  inherit pkgs system;
+{ pkgsg, inputs, ... }:
+let inherit (inputs) nixpkgs;
+in {
   zfs-root = {
     boot = {
       devNodes = "/dev/disk/by-id/";
       bootDevices = [ "virtio-abcdef0123456789" ];
-
       immutable = false;
-      availableKernelModules = [ "ahci" "xhci_pci" "virtio_pci" "sr_mod" "virtio_blk" ];
       removableEfi = true;
-      kernelParams = [ "nohibernate" "mitigations=off" ];
-
       sshUnlock = {
         # read sshUnlock.txt file.
         enable = false;
         authorizedKeys = [ ];
       };
     };
-    networking = {
-      # read changeHostName.txt file.
-      hostName = "vm1-gnome";
-      timeZone = "Europe/Madrid";
-      hostId = "53bb851e";
-    };
   };
+
+  boot = {
+    initrd.availableKernelModules = [ "ahci" "xhci_pci" "virtio_pci" "sr_mod" "virtio_blk" ];
+    kernelParams = [ "nohibernate" "mitigations=off" ];
+  };
+
+  networking = {
+    hostName = "vm1-gnome";
+    hostId = "a3b5868f";
+  };
+
+  time.timeZone = "Europe/Madrid";
+
+  # imports preconfigured profiles
+  imports = [
+    "${nixpkgs}/nixos/modules/installer/scan/not-detected.nix"
+    # "${nixpkgs}/nixos/modules/profiles/hardened.nix"
+    "${nixpkgs}/nixos/modules/profiles/qemu-guest.nix"
+    ./configuration.nix
+    ./../..users/sdelrio/user.nix
+  ];
 }
