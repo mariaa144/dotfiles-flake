@@ -1,6 +1,4 @@
-{ inputs, ... }:
-let inherit (inputs) nixpkgs;
-in {
+{ config, pkgs, lib, inputs, modulesPath, ... }: {
   zfs-root = {
     boot = {
       devNodes = "/dev/disk/by-id/";
@@ -23,8 +21,8 @@ in {
 
   # import preconfigured profiles
   imports = [
-    "${nixpkgs}/nixos/modules/installer/scan/not-detected.nix"
-    # "${nixpkgs}/nixos/modules/profiles/hardened.nix"
-    # "${nixpkgs}/nixos/modules/profiles/qemu-guest.nix"
+    (modulesPath + "/installer/scan/not-detected.nix")
+    # (modulesPath + "/profiles/hardened.nix")
+    # (modulesPath + "/profiles/qemu-guest.nix")
   ];
 }
