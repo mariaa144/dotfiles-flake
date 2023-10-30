@@ -11,6 +11,11 @@ in {
       type = types.bool;
       default = true;
     };
+    luks.enable = mkOption {
+      description = "Use luks encryption";
+      type = types.bool;
+      default = false;
+    };
     devNodes = mkOption {
       description = "Specify where to discover ZFS pools";
       type = types.str;
@@ -23,14 +28,6 @@ in {
     bootDevices = mkOption {
       description = "Specify boot devices";
       type = types.nonEmptyListOf types.str;
-    };
-    availableKernelModules = mkOption {
-      type = types.nonEmptyListOf types.str;
-      default = [ "uas" "nvme" "ahci" ];
-    };
-    kernelParams = mkOption {
-      type = types.listOf types.str;
-      default = [ ];
     };
     immutable = mkOption {
       description = "Enable root on ZFS immutable root support";
@@ -73,6 +70,15 @@ in {
         "bpool/nixos/root" = "/boot";
       };
     }
+    (mkIf cfg.luks.enable {
+      boot.initrd.luks.devices = mkMerge (map (diskName: {
+        "luks-rpool-${diskName}${cfg.partitionScheme.rootPool}" = {
+          device = (cfg.devNodes + diskName + cfg.partitionScheme.rootPool);
+          allowDiscards = true;
+          bypassWorkqueues = true;
+        };
+      }) cfg.bootDevices);
+    })
     (mkIf (!cfg.immutable) {
       zfs-root.fileSystems.datasets = { "rpool/nixos/root" = "/"; };
     })
@@ -86,6 +92,16 @@ in {
           "/oldroot/nix" = "/nix";
           "/oldroot/etc/nixos" = "/etc/nixos";
         };
+      };
+      boot.initrd.systemd.services.immutable-zfs-root = {
+        description = "Rollback root filesystem to an empty snapshot";
+        unitConfig.DefaultDependencies = false;
+        wantedBy = [ "zfs.target" ];
+        after = [ "zfs-import-rpool.service" ];
+        before = [ "sysroot.mount" ];
+        path = [ pkgs.zfs ];
+        serviceConfig.Type = "oneshot";
+        script = "zfs rollback -r rpool/nixos/empty@start";
       };
       boot.initrd.postDeviceCommands = ''
         if ! grep -q zfs_no_rollback /proc/cmdline; then
@@ -104,10 +120,6 @@ in {
           (map (diskName: diskName + cfg.partitionScheme.swap) cfg.bootDevices);
       };
       boot = {
-        kernelPackages =
-          mkDefault config.boot.zfs.package.latestCompatibleLinuxPackages;
-        initrd.availableKernelModules = cfg.availableKernelModules;
-        kernelParams = cfg.kernelParams;
         supportedFilesystems = [ "zfs" ];
         zfs = {
           devNodes = cfg.devNodes;

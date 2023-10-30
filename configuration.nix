@@ -1,6 +1,8 @@
 # configuration in this file is shared by all hosts
 
-{ pkgs, ... }: {
+{ pkgs, pkgs-unstable, inputs, ... }:
+let inherit (inputs) self;
+in {
   # Enable NetworkManager for wireless networking,
   # You can configure networking with "nmtui" command.
   networking.useDHCP = true;
@@ -62,5 +64,27 @@
       #mg # emacs-like editor
       jq # other programs
     ;
+    # By default, the system will only use packages from the
+    # stable channel. i.e.
+    # inherit (pkg) my-favorite-stable-package;
+    # You can selectively install packages
+    # from the unstable channel. Such as
+    # inherit (pkgs-unstable) my-favorite-unstable-package;
+    # You can also add more
+    # channels to pin package version.
   };
+
+  # Safety mechanism: refuse to build unless everything is
+  # tracked by git
+  system.configurationRevision = if (self ? rev) then
+    self.rev
+  else
+    throw "refuse to build: git tree is dirty";
+
+  system.stateVersion = "23.05";
+
+  # let nix commands follow system nixpkgs revision
+  nix.registry.nixpkgs.flake = inputs.nixpkgs;
+  # you can then test any package in a nix shell, such as
+  # $ nix shell nixpkgs#neovim
 }
