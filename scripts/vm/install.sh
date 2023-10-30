@@ -1,3 +1,4 @@
+#!/run/current-system/sw/bin/bash
 #!/bin/bash
 set -e
 
@@ -30,9 +31,10 @@ NAME="myuser"
 
 ## Git for system configuration
 GITREPO=https://github.com/sdelrio/homenix-flake.git
-GITBRANCH=master
+GITBRANCH=wip-vm1
 GITSED=false
-MYHOST=vm1-gnome
+#MYHOST=vm1-terminal
+MYHOST=vm1-cinnamon
 
 ## Enable Nix Flakes functionality
 mkdir -p ~/.config/nix
