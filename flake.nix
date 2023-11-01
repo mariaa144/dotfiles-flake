@@ -18,7 +18,7 @@
             inherit system;
             # settings to nixpkgs goes to here
             # nixpkgs.pkgs.zathura.useMupdf = true;
-            # nixpkgs.config.allowUnfree = false;
+            config = { allowUnfree = true; };
           };
 
           specialArgs = {
