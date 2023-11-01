@@ -41,7 +41,7 @@
   };
 
   # Enable CUPS to print documents.
-  #services.printing.enable = true;
+  services.printing.enable = false;
 
   # Enable sound with pipewire.
   sound.enable = true;
@@ -98,6 +98,13 @@
     (modulesPath + "/installer/scan/not-detected.nix")
     # (modulesPath + "/profiles/hardened.nix")
     (modulesPath + "/profiles/qemu-guest.nix")
-    "../../users/sdelrio/user.nix"
+    ../../users/sdelrio/user.nix
   ];
+
+  environment.systemPackages = with pkgs; [
+    firefox
+    brave
+    solaar
+  ];
+
 }
