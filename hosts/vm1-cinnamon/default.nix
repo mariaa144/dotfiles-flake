@@ -102,9 +102,22 @@
   ];
 
   environment.systemPackages = with pkgs; [
-    firefox
+    bitwarden
     brave
+    corectrl
+    firefox
+    ## Keyboard-driven layer for GNOME Shell
+    # gnomeExtensions.pop-shell
+    gpa
+    lutris
+    plex-media-player
+    syncthing
+    syncthing-tray
     solaar
+    telegram-desktop
+    # steam
+    vscode
+    zsh
   ];
 
 }
