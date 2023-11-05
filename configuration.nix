@@ -50,6 +50,8 @@ in {
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
+  boot.initrd.systemd.enable = true;
+
   programs.git.enable = true;
 
   security = {
