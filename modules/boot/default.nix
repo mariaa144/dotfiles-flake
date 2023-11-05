@@ -96,13 +96,6 @@ in {
         serviceConfig.Type = "oneshot";
         script = "zfs rollback -r rpool/nixos/empty@start";
       };
-      boot.initrd.postDeviceCommands = ''
-        if ! grep -q zfs_no_rollback /proc/cmdline; then
-          zpool import -N rpool
-          zfs rollback -r rpool/nixos/empty@start
-          zpool export -a
-        fi
-      '';
     })
     {
       zfs-root.fileSystems = {
