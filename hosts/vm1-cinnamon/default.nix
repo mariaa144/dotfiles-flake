@@ -71,15 +71,9 @@
       devNodes = "/dev/disk/by-id/";
       bootDevices = [ "virtio-abcdef0123456789" ];
 
-      immutable = false;
+      immutable.enable = false;
       removableEfi = true;
       luks.enable = false;
-
-      sshUnlock = {
-        # read sshUnlock.txt file.
-        enable = false;
-        authorizedKeys = [ ];
-      };
     };
   };
 
@@ -99,6 +93,7 @@
     # (modulesPath + "/profiles/hardened.nix")
     (modulesPath + "/profiles/qemu-guest.nix")
     ../../users/sdelrio/user.nix
+    ../../users/sdelrio/fonts.nix
   ];
 
   environment.systemPackages = with pkgs; [
@@ -118,19 +113,7 @@
     # steam
     vscode
     zsh
-  ];
-
-  # https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/
-  # https://nixos.wiki/wiki/Fonts
-  fonts.fonts = with pkgs; [
-    (nerdfonts.override {
-      fonts = [ 
-       "FiraCode"
-       "DroidSansMono"
-#       "DejaVuSansMono"
-#       "SourceCodePro"
-      ];
-    })
+    hwloc
   ];
 
 }
