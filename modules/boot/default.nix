@@ -29,7 +29,7 @@ in {
       description = "Specify boot devices";
       type = types.nonEmptyListOf types.str;
     };
-    immutable = mkOption {
+    immutable.enable = mkOption {
       description = "Enable root on ZFS immutable root support";
       type = types.bool;
       default = false;
@@ -50,20 +50,11 @@ in {
       description = "Describe on disk partitions";
       type = types.attrsOf types.str;
     };
-    sshUnlock = {
-      enable = mkOption {
-        type = types.bool;
-        default = false;
-      };
-      authorizedKeys = mkOption {
-        type = types.listOf types.str;
-        default = [ ];
-      };
-    };
   };
   config = mkIf (cfg.enable) (mkMerge [
     {
       zfs-root.fileSystems.datasets = {
+        # rpool/path/to/dataset = "/path/to/mountpoint"
         "rpool/nixos/home" = mkDefault "/home";
         "rpool/nixos/var/lib" = mkDefault "/var/lib";
         "rpool/nixos/var/log" = mkDefault "/var/log";
@@ -79,16 +70,18 @@ in {
         };
       }) cfg.bootDevices);
     })
-    (mkIf (!cfg.immutable) {
+    (mkIf (!cfg.immutable.enable) {
       zfs-root.fileSystems.datasets = { "rpool/nixos/root" = "/"; };
     })
-    (mkIf cfg.immutable {
+    (mkIf cfg.immutable.enable {
       zfs-root.fileSystems = {
         datasets = {
+          # rpool/path/to/dataset = "/path/to/mountpoint"
           "rpool/nixos/empty" = "/";
           "rpool/nixos/root" = "/oldroot";
         };
         bindmounts = {
+          # /bindmount/source = /bindmount/target
           "/oldroot/nix" = "/nix";
           "/oldroot/etc/nixos" = "/etc/nixos";
         };
@@ -103,13 +96,6 @@ in {
         serviceConfig.Type = "oneshot";
         script = "zfs rollback -r rpool/nixos/empty@start";
       };
-      boot.initrd.postDeviceCommands = ''
-        if ! grep -q zfs_no_rollback /proc/cmdline; then
-          zpool import -N rpool
-          zfs rollback -r rpool/nixos/empty@start
-          zpool export -a
-        fi
-      '';
     })
     {
       zfs-root.fileSystems = {
@@ -148,27 +134,5 @@ in {
         };
       };
     }
-    (mkIf cfg.sshUnlock.enable {
-      boot.initrd = {
-        network = {
-          enable = true;
-          ssh = {
-            enable = true;
-            hostKeys = [
-              "/var/lib/ssh_unlock_zfs_ed25519_key"
-              "/var/lib/ssh_unlock_zfs_rsa_key"
-            ];
-            authorizedKeys = cfg.sshUnlock.authorizedKeys;
-          };
-          postCommands = ''
-            tee -a /root/.profile >/dev/null <<EOF
-            if zfs load-key rpool/nixos; then
-               pkill zfs
-            fi
-            exit
-            EOF'';
-        };
-      };
-    })
   ]);
 }
