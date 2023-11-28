@@ -15,7 +15,7 @@ ROOT_ENCRYPT=false
 ROOT_ENCRYPT_PASSWORD=changeme
 
 MNT=$(mktemp -d)
-#MNT=/mnt
+#MNT=/tmp/tmp12345
 
 ##Set swap size in GB, set to 1 if you don’t want swap to take up too much space
 SWAPSIZE=2
@@ -35,6 +35,8 @@ GITBRANCH=wip-vm1
 GITSED=false
 #MYHOST=vm1-terminal
 MYHOST=vm1-cinnamon
+# keep git remote, then 'yes'. If want clean and create a new one then 'no'
+KEEPGIT=yes
 
 ## Enable Nix Flakes functionality
 mkdir -p ~/.config/nix
@@ -99,9 +101,13 @@ for i in ${DISK}; do
    partition_disk "${i}"
  fi
 done
+sync
 
 echo "[info] blkid -p ${DISK}-part{1,2,3,4,5} | grep zfs_member | grep --color LABEL"
 blkid -p ${DISK}-part{1,2,3,4,5} | grep zfs_member | grep --color LABEL || true
+sync
+
+sleep 1
 
 if [[ "$SWAPSIZE" -ne "0" ]]; then
   echo "[info] Setup encrypted swap"
@@ -208,15 +214,21 @@ done
 
 mkdir -p "${MNT}"/etc
 
-git clone --depth 1 --branch ${GITBRANCH} \
-  ${GITREPO} "${MNT}"/etc/nixos
-
-rm -rf "${MNT}"/etc/nixos/.git
-git -C "${MNT}"/etc/nixos/ init -b main
-git -C "${MNT}"/etc/nixos/ add "${MNT}"/etc/nixos/
-git -C "${MNT}"/etc/nixos config user.email "${EMAIL}"
-git -C "${MNT}"/etc/nixos config user.name "${NAME}"
-git -C "${MNT}"/etc/nixos commit -asm 'initial commit'
+if [[ "$KEEPGIT" = "yes" ]]; then
+  git clone --branch ${GITBRANCH} \
+    ${GITREPO} "${MNT}"/etc/nixos
+  git -C "${MNT}"/etc/nixos config user.email "${EMAIL}"
+  git -C "${MNT}"/etc/nixos config user.name "${NAME}"
+else
+  git clone --depth 1 --branch ${GITBRANCH} \
+    ${GITREPO} "${MNT}"/etc/nixos
+  rm -rf "${MNT}"/etc/nixos/.git
+  git -C "${MNT}"/etc/nixos/ init -b main
+  git -C "${MNT}"/etc/nixos/ add "${MNT}"/etc/nixos/
+  git -C "${MNT}"/etc/nixos config user.email "${EMAIL}"
+  git -C "${MNT}"/etc/nixos config user.name "${NAME}"
+  git -C "${MNT}"/etc/nixos commit -asm 'initial commit'
+fi
 
 if [[ "${GITSED}" = "true" ]]; then 
   echo "[info] Customize config to your hardware"
@@ -283,4 +295,3 @@ nixos-install \
 echo "[info] Umount and export pools"
 umount -Rl "${MNT}"
 zpool export -a
-
