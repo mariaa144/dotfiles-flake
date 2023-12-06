@@ -6,6 +6,7 @@
 # this file.
 
 { config, pkgs, lib, inputs, modulesPath, ... }: {
+
   zfs-root = {
     boot = {
       devNodes = "/dev/disk/by-id/";
