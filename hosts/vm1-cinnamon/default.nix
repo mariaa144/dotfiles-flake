@@ -60,9 +60,6 @@
     #media-session.enable = true;
   };
 
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
 
