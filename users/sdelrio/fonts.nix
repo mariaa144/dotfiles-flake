@@ -2,7 +2,7 @@
 
   # https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/
   # https://nixos.wiki/wiki/Fonts
-  fonts.fonts = with pkgs; [
+  fonts.packages = with pkgs; [
     (nerdfonts.override {
       fonts = [
         "FiraCode"
@@ -14,7 +14,7 @@
   ];
 
   fonts = {
-    enableDefaultFonts = true;
+    enableDefaultPackages = true;
     fontconfig = {
       defaultFonts = {
         monospace = [ "FiraCode" ];
