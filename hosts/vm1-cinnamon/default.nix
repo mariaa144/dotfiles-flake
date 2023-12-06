@@ -96,6 +96,14 @@
     ../../users/sdelrio/fonts.nix
   ];
 
+  virtualisation.docker.enable = true;
+  virtualisation.docker.rootless = {
+    enable = true;
+    setSocketVariable = true;
+  };
+
+  users.users.sdelrio.extraGroups = [ "docker" ];
+
   environment.systemPackages = with pkgs; [
     bitwarden
     brave
@@ -105,12 +113,14 @@
     # gnomeExtensions.pop-shell
     gpa
     lutris
+    # onlyoffice
     plex-media-player
     syncthing
     syncthing-tray
     solaar
     telegram-desktop
     # steam
+    # virt-manager
     vscode
     zsh
     hwloc
