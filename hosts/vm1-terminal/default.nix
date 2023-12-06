@@ -5,20 +5,15 @@
 # all others goes to `configuration.nix` under the same directory as
 # this file.
 
-{ pkgs, inputs, ...}:
-let inherit (inputs) nixpkgs;
-in {
+{ config, pkgs, lib, inputs, modulesPath, ... }: {
+
   zfs-root = {
     boot = {
       devNodes = "/dev/disk/by-id/";
       bootDevices = [ "virtio-abcdef0123456789" ];
-      immutable = false;
+      immutable.enable = false;
       removableEfi = true;
-      sshUnlock = {
-        # read sshUnlock.txt file.
-        enable = false;
-        authorizedKeys = [ ];
-      };
+      luks.enable = false;
     };
   };
 
@@ -36,11 +31,9 @@ in {
 
   # imports preconfigured profiles
   imports = [
-    "${nixpkgs}/nixos/modules/installer/scan/not-detected.nix"
-    # "${nixpkgs}/nixos/modules/profiles/hardened.nix"
-    "${nixpkgs}/nixos/modules/profiles/qemu-guest.nix"
-    ./configuration.nix
-    ./../../users/sdelrio/user.nix
+    (modulesPath + "/installer/scan/not-detected.nix")
+    # (modulesPath + "/profiles/hardened.nix")
+    (modulesPath + "/profiles/qemu-guest.nix")
+    "../../users/sdelrio/user.nix"
   ];
-
 }
