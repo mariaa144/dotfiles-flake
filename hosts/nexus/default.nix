@@ -99,7 +99,10 @@
     setSocketVariable = true;
   };
 
-  users.users.sdelrio.extraGroups = [ "docker" ];
+  virtualisation.libvirtd.enable = true;
+  programs.virt-manager.enable = true;
+
+  users.users.sdelrio.extraGroups = [ "docker" "libvirtd" ];
 
   environment.systemPackages = with pkgs; [
     bitwarden
@@ -110,14 +113,15 @@
     # gnomeExtensions.pop-shell
     gpa
     lutris
-    # onlyoffice
+    lm_sensors
+    onlyoffice-bin_latest
     plex-media-player
     syncthing
     syncthing-tray
     solaar
     telegram-desktop
     # steam
-    # virt-manager
+    virt-manager
     vscode
     zsh
     hwloc
