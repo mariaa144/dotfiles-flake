@@ -80,7 +80,8 @@
   networking = {
     # read changeHostName.txt file.
     hostName = "nexus";
-    hostId = "6814606374c7456e97faabde50bc6c09";
+    # head -c4 /dev/urandom | od -A none -t x4
+    hostId = "8b5c63d7";
   };
   time.timeZone = "Europe/Madrid";
 
