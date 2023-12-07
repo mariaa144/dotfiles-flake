@@ -56,6 +56,7 @@
     in {
       nixosConfigurations = {
         exampleHost = mkHost "exampleHost" "x86_64-linux";
+        nexus = mkHost "nexus" "x86_64-linux";
         vm1-gnome = mkHost "vm1-gnome" "x86_64-linux";
         vm1-cinnamon = mkHost "vm1-cinnamon" "x86_64-linux";
         vm1-terminal = mkHost "vm1-terminal" "x86_64-linux";
