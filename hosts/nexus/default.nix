@@ -126,7 +126,9 @@
     gpa
     lutris
     lm_sensors
+    lshw
     onlyoffice-bin_latest
+    pciutils
     plex-media-player
     syncthing
     syncthing-tray
