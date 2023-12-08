@@ -74,7 +74,8 @@
     };
   };
 
-  boot.initrd.availableKernelModules = [ "ahci" "xhci_pci" ];
+  boot.initrd.availableKernelModules = [ "ahci" "xhci_pci" "r8125" ];
+  boot.blacklistedKernelModules = [ "r8169" ];
   boot.kernelParams = [ "nohibernate" "mitigations=off" ];
 
   networking = {
@@ -124,8 +125,11 @@
     ## Keyboard-driven layer for GNOME Shell
     # gnomeExtensions.pop-shell
     gpa
-    lutris
+    #linuxKernel.packages.linux_latest_libre.r8125
+    #linuxKernel.packages.linux_6_6.r8125
+    linuxKernel.packages.linux_6_1.r8125
     lm_sensors
+    lutris
     lshw
     onlyoffice-bin_latest
     pciutils
