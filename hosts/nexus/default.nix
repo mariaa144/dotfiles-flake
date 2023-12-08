@@ -80,7 +80,8 @@
   networking = {
     # read changeHostName.txt file.
     hostName = "nexus";
-    hostId = "6814606374c7456e97faabde50bc6c09";
+    # head -c4 /dev/urandom | od -A none -t x4
+    hostId = "8b5c63d7";
   };
   time.timeZone = "Europe/Madrid";
 
@@ -98,7 +99,10 @@
     setSocketVariable = true;
   };
 
-  users.users.sdelrio.extraGroups = [ "docker" ];
+  virtualisation.libvirtd.enable = true;
+  programs.virt-manager.enable = true;
+
+  users.users.sdelrio.extraGroups = [ "docker" "libvirtd" ];
 
   environment.systemPackages = with pkgs; [
     bitwarden
@@ -109,14 +113,15 @@
     # gnomeExtensions.pop-shell
     gpa
     lutris
-    # onlyoffice
+    lm_sensors
+    onlyoffice-bin_latest
     plex-media-player
     syncthing
     syncthing-tray
     solaar
     telegram-desktop
     # steam
-    # virt-manager
+    virt-manager
     vscode
     zsh
     hwloc
