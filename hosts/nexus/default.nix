@@ -90,8 +90,6 @@
           address = "192.168.2.58";
           prefixLength = 24;
         }];
-        # https://nixos.org/manual/nixos/stable/options#opt-networking.interfaces._name_.mtu
-        mtu = 9000;
       };
     };
   };
