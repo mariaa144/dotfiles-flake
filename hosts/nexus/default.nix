@@ -82,6 +82,16 @@
     hostName = "nexus";
     # head -c4 /dev/urandom | od -A none -t x4
     hostId = "8b5c63d7";
+
+    interfaces = {
+      enp7s0.mtu = 9000;
+      enp6s0 = {
+        ipv4.addresses = [{
+          address = "192.168.2.58";
+          prefixLength = 24;
+        }];
+      };
+    };
   };
   time.timeZone = "Europe/Madrid";
 
@@ -114,7 +124,9 @@
     gpa
     lutris
     lm_sensors
+    lshw
     onlyoffice-bin_latest
+    pciutils
     plex-media-player
     syncthing
     syncthing-tray
