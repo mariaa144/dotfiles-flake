@@ -86,6 +86,8 @@
     interfaces = {
       enp7s0.mtu = 9000;
       enp6s0 = {
+        useDHCP = false;
+        mtu = 9000;
         ipv4.addresses = [{
           address = "192.168.2.58";
           prefixLength = 24;
