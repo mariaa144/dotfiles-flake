@@ -119,6 +119,8 @@
   environment.systemPackages = with pkgs; [
     bitwarden
     brave
+    # for samba mounts
+    cifs-utils
     corectrl
     firefox
     ## Keyboard-driven layer for GNOME Shell
