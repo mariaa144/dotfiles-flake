@@ -35,10 +35,10 @@
             ./modules
 
             # Configuration shared by all hosts
-            ./configuration.nix
+            (import ./configuration.nix)
 
             # Configuration per host
-            ./hosts/${hostName}
+            (import ./hosts/${hostName})
 
             # home-manager
             home-manager.nixosModules.home-manager
