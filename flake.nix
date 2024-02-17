@@ -20,39 +20,29 @@
           specialArgs = {
             # By default, the system will only use packages from the
             # stable channel.  You can selectively install packages
-            # from the unstable channel. Such as
-            # inherit (pkgs-unstable) hello;
+            # from the unstable channel.
             pkgs-unstable = nixpkgs-unstable.legacyPackages.${system};
           };
 
           modules = [
-            # Root on ZFS related configuration
             ./modules
 
-            # Configuration shared by all hosts
             (import ./configuration.nix)
 
-            # Configuration per host
             (import ./hosts/${hostName})
 
             ({
-              # Safety mechanism: refuse to build unless everything is
-              # tracked by git
               system.configurationRevision = if (self ? rev) then
                 self.rev
               else
                 throw "refuse to build: git tree is dirty";
-
               system.stateVersion = "23.05";
-
-              # import preconfigured profiles
               imports = [
                 "${nixpkgs}/nixos/modules/installer/scan/not-detected.nix"
-                # "${nixpkgs}/nixos/modules/profiles/hardened.nix"
+                "${nixpkgs}/nixos/modules/profiles/hardened.nix"
               ];
             })
 
-            # home-manager
             home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
