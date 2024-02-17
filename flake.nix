@@ -8,7 +8,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager }@inputs:
+  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager }:
     let
       mkHost = hostName: system:
         nixpkgs.lib.nixosSystem {
@@ -23,9 +23,6 @@
             # from the unstable channel.  You can also add more
             # channels to pin package version.
             pkgs-unstable = nixpkgs-unstable.legacyPackages.${system};
-
-            # make all inputs availabe in other nix files
-            inherit inputs;
           };
 
           modules = [
@@ -37,6 +34,24 @@
 
             # Configuration per host
             (import ./hosts/${hostName})
+
+            ({
+              # Safety mechanism: refuse to build unless everything is
+              # tracked by git
+              system.configurationRevision = if (self ? rev) then
+                self.rev
+              else
+                throw "refuse to build: git tree is dirty";
+
+              system.stateVersion = "23.05";
+
+              # import preconfigured profiles
+              imports = [
+                "${nixpkgs}/nixos/modules/installer/scan/not-detected.nix"
+                # "${nixpkgs}/nixos/modules/profiles/hardened.nix"
+                # "${nixpkgs}/nixos/modules/profiles/qemu-guest.nix"
+              ];
+            })
 
             # home-manager
             home-manager.nixosModules.home-manager

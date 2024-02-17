@@ -1,8 +1,6 @@
 # configuration in this file is shared by all hosts
 
-{ pkgs, pkgs-unstable, inputs, ... }:
-let inherit (inputs) self nixpkgs;
-in {
+{ pkgs, pkgs-unstable, ... }: {
   # Enable NetworkManager for wireless networking,
   # You can configure networking with "nmtui" command.
   networking.useDHCP = true;
