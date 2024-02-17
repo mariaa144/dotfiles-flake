@@ -1,17 +1,6 @@
 # configuration in this file is shared by all hosts
 
-{ pkgs, pkgs-unstable, ... }: {
-  environment.systemPackages = builtins.attrValues {
-    inherit (pkgs)
-      mg # emacs-like editor
-      jq # other programs
-    ;
-    # By default, the system will only use packages from the
-    # stable channel.  You can selectively install packages
-    # from the unstable channel.
-    # inherit (pkgs-unstable) hello;
-  };
-
+{ pkgs, ... }: {
   # Enable NetworkManager for wireless networking,
   # You can configure networking with "nmtui" command.
   networking.useDHCP = true;
@@ -70,6 +59,7 @@
 
   environment.systemPackages = builtins.attrValues {
     inherit (pkgs)
+<<<<<<< HEAD
       #mg # emacs-like editor
       jq # other programs
     ;
@@ -86,4 +76,11 @@
 
   # let nix commands follow system nixpkgs revision
   # nix.registry.nixpkgs.flake = inputs.nixpkgs;
+
+  environment.systemPackages = builtins.attrValues {
+    inherit (pkgs)
+      mg # emacs-like editor
+      jq # other programs
+    ;
+  };
 }

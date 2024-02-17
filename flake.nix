@@ -18,10 +18,7 @@
           #  config = { allowUnfree = true; };
 
           specialArgs = {
-            # By default, the system will only use packages from the
-            # stable channel.  You can selectively install packages
-            # from the unstable channel.
-            pkgs-unstable = nixpkgs-unstable.legacyPackages.${system};
+            nixpkgs-unstable = nixpkgs-unstable.legacyPackages.${system};
           };
 
           modules = [
