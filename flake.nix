@@ -12,7 +12,7 @@
     let
       mkHost = hostName: system:
         nixpkgs.lib.nixosSystem {
-          inherit system;
+          system = system;
           pkgs = nixpkgs.legacyPackages.${system};
           # nixpkgs.config.allowUnfree = false;
           #  config = { allowUnfree = true; };
