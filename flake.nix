@@ -14,12 +14,10 @@
     let
       mkHost = hostName: system:
         nixpkgs.lib.nixosSystem {
-          pkgs = import nixpkgs {
-            inherit system;
-            # settings to nixpkgs goes to here
-            # nixpkgs.pkgs.zathura.useMupdf = true;
-            config = { allowUnfree = true; };
-          };
+          inherit system;
+          pkgs = nixpkgs.legacyPackages.${system};
+          # nixpkgs.config.allowUnfree = false;
+          #  config = { allowUnfree = true; };
 
           specialArgs = {
             # By default, the system will only use packages from the
