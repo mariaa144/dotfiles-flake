@@ -3,9 +3,14 @@
     boot = {
       devNodes = "/dev/disk/by-id/";
       bootDevices = [ "bootDevices_placeholder" ];
-      immutable.enable = false;
+      immutable = false;
       removableEfi = true;
       luks.enable = false;
+      sshUnlock = {
+        # read sshUnlock.txt file.
+        enable = false;
+        authorizedKeys = [ ];
+      };
     };
   };
   boot.initrd.availableKernelModules = [ "kernelModules_placeholder" ];
