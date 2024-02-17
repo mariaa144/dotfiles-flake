@@ -93,16 +93,6 @@ in {
           "/oldroot/etc/nixos" = "/etc/nixos";
         };
       };
-      boot.initrd.systemd.services.immutable-zfs-root = {
-        description = "Rollback root filesystem to an empty snapshot";
-        unitConfig.DefaultDependencies = false;
-        wantedBy = [ "zfs.target" ];
-        after = [ "zfs-import-rpool.service" ];
-        before = [ "sysroot.mount" ];
-        path = [ pkgs.zfs ];
-        serviceConfig.Type = "oneshot";
-        script = "zfs rollback -r rpool/nixos/empty@start";
-      };
       boot.initrd.postDeviceCommands = ''
         if ! grep -q zfs_no_rollback /proc/cmdline; then
           zpool import -N rpool
