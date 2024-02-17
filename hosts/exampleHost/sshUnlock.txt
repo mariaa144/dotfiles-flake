@@ -22,7 +22,7 @@ Check which module is needed with:
 
 Then, add the the modules to
 
-  boot.initrd.availableKernelModules
+  zfs-root.boot.availableKernelModules
 
 option inside the per-host configuration file.  This file is located
 at hosts/exampleHost/default.nix.
@@ -35,7 +35,7 @@ you need to specify a static IP address, see the documentation for
 
 Then, add the necessary kernel command line options to
 
-  boot.kernelParams
+  zfs-root.boot.kernelParams
 
 option inside the per-host configuration file.
 

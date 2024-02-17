@@ -30,10 +30,10 @@ Place 3.
 
 Change
 
-  networking.hostName = "exampleHost";
+    zfs-root.networking.hostName = "exampleHost";
 
 to
 
-  networking.hostName = "myHost";
+    zfs-root.networking.hostName = "myHost";
 
 End.
