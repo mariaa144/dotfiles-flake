@@ -85,6 +85,4 @@ in {
 
   # let nix commands follow system nixpkgs revision
   nix.registry.nixpkgs.flake = inputs.nixpkgs;
-  # you can then test any package in a nix shell, such as
-  # $ nix shell nixpkgs#neovim
 }
