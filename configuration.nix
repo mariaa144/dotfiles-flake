@@ -84,5 +84,5 @@ in {
   system.stateVersion = "23.11";
 
   # let nix commands follow system nixpkgs revision
-  nix.registry.nixpkgs.flake = inputs.nixpkgs;
+  # nix.registry.nixpkgs.flake = inputs.nixpkgs;
 }
