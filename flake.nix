@@ -26,10 +26,7 @@
             # stable channel.  You can selectively install packages
             # from the unstable channel.  You can also add more
             # channels to pin package version.
-            pkgs-unstable = import nixpkgs-unstable {
-              inherit system;
-              # settings to nixpkgs-unstable goes to here
-            };
+            pkgs-unstable = nixpkgs-unstable.legacyPackages.${system};
 
             # make all inputs availabe in other nix files
             inherit inputs;
