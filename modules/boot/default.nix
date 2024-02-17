@@ -11,11 +11,6 @@ in {
       type = types.bool;
       default = true;
     };
-    luks.enable = mkOption {
-      description = "Use luks encryption";
-      type = types.bool;
-      default = false;
-    };
     devNodes = mkOption {
       description = "Specify where to discover ZFS pools";
       type = types.str;
@@ -70,15 +65,6 @@ in {
         "bpool/nixos/root" = "/boot";
       };
     }
-    (mkIf cfg.luks.enable {
-      boot.initrd.luks.devices = mkMerge (map (diskName: {
-        "luks-rpool-${diskName}${cfg.partitionScheme.rootPool}" = {
-          device = (cfg.devNodes + diskName + cfg.partitionScheme.rootPool);
-          allowDiscards = true;
-          bypassWorkqueues = true;
-        };
-      }) cfg.bootDevices);
-    })
     (mkIf (!cfg.immutable) {
       zfs-root.fileSystems.datasets = { "rpool/nixos/root" = "/"; };
     })

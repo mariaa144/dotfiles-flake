@@ -5,7 +5,6 @@
       bootDevices = [ "bootDevices_placeholder" ];
       immutable = false;
       removableEfi = true;
-      luks.enable = false;
       sshUnlock = {
         # read sshUnlock.txt file.
         enable = false;
