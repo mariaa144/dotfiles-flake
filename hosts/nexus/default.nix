@@ -68,7 +68,7 @@
       devNodes = "/dev/disk/by-id/";
       bootDevices = [ "nvme-eui.0000000623011999caf25b02b0000150" ];
 
-      immutable.enable = false;
+      immutable = false;
       removableEfi = true;
       luks.enable = false;
     };
