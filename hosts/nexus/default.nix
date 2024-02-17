@@ -136,6 +136,7 @@
     syncthing-tray
     solaar
     telegram-desktop
+    terminator
     # steam
     virt-manager
     vscode
